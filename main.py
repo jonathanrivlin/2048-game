@@ -78,7 +78,6 @@ class Game:
                 if row[index] != 0 and index != 3 and row[index + 1] == row[index]:
                     row[index] = 0
                     row[index + 1] *= 2
-
         self.random_blocks()
 
     def on_left_key(self):
