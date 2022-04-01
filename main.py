@@ -17,10 +17,10 @@ class Game:
         while not done:
             x, y = rd.randint(0, 3), rd.randint(0, 3)
             if not self.board[y][x] and rd.random() < chance_for_four:
-                self.board[y][x]: int = 4
+                self.board[y][x] = 4
                 done = True
             elif not self.board[y][x]:
-                self.board[y][x]: int = 2
+                self.board[y][x] = 2
                 done = True
 
     def show_board(self):
@@ -51,7 +51,19 @@ class Game:
         self.random_blocks()
 
     def on_down_key(self):
-        pass
+        for _ in range(3):
+            for i in range(4):
+                for index, row in enumerate(self.board):
+                    if row[i] != 0 and index != 3 and self.board[index + 1][i] == 0:
+                        self.board[index + 1][i] = self.board[index][i]
+                        self.board[index][i] = 0
+        for _ in range(3):
+            for i in range(4):
+                for index, row in enumerate(self.board):
+                    if row[i] != 0 and index != 3 and self.board[index + 1][i] == self.board[index][i]:
+                        self.board[index + 1][i] *= 2
+                        self.board[index][i] = 0
+        self.random_blocks()
 
     def on_right_key(self):
         for _ in range(3):
