@@ -4,10 +4,6 @@ from typing import List
 
 class Game:
     def __init__(self):
-        self.board = None
-        self.reset_game()
-
-    def reset_game(self):
         self.board: List[List[int]] = [[0 for _ in range(4)] for _ in range(4)]
         self.random_blocks()
         self.random_blocks(0)
@@ -100,6 +96,7 @@ game = Game()
 
 while True:
     game.show_board()
+    print("Use the WASD keys to play, and hit the space to reset the game.")
     user_input = input("Enter a direction: ")
     if user_input == 'w':
         game.on_up_key()
@@ -110,4 +107,4 @@ while True:
     elif user_input == 'd':
         game.on_right_key()
     elif user_input == ' ':
-        game.reset_game()
+        game = Game()
