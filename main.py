@@ -93,7 +93,6 @@ class Game:
                 if row[index] != 0 and index != 0 and row[index] == row[index - 1]:
                     row[index - 1] *= 2
                     row[index] = 0
-
         self.random_blocks()
 
 
