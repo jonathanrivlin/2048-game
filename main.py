@@ -4,7 +4,13 @@ from typing import List
 
 class Game:
     def __init__(self):
-       self.reset_game()
+        self.board = None
+        self.reset_game()
+
+    def reset_game(self):
+        self.board: List[List[int]] = [[0 for _ in range(4)] for _ in range(4)]
+        self.random_blocks()
+        self.random_blocks(0)
 
     def random_blocks(self, chance_for_four: float = 0.2):
         done = False
@@ -17,15 +23,10 @@ class Game:
                 self.board[y][x]: int = 2
                 done = True
 
-    def reset_game(self):
-        self.board: List[List[int]] = [[0 for _ in range(4)] for _ in range(4)]
-        self.random_blocks()
-        self.random_blocks(0)
-
     def show_board(self):
         for row in self.board:
             print("+-----------------------+")
-            display = "|"
+            display: str = "|"
             for block in row:
                 if block == 0:
                     display += "     |"
@@ -35,7 +36,19 @@ class Game:
         print("+-----------------------+")
 
     def on_up_key(self):
-        pass
+        for _ in range(3):
+            for i in range(4):
+                for index, row in enumerate(self.board):
+                    if row[i] != 0 and index != 0 and self.board[index - 1][i] == 0:
+                        self.board[index - 1][i] = self.board[index][i]
+                        self.board[index][i] = 0
+        for _ in range(3):
+            for i in range(4):
+                for index, row in enumerate(self.board):
+                    if row[i] != 0 and index != 0 and self.board[index][i] == self.board[index - 1][i]:
+                        self.board[index - 1][i] *= 2
+                        self.board[index][i] = 0
+        self.random_blocks()
 
     def on_down_key(self):
         pass
@@ -77,7 +90,7 @@ game = Game()
 
 while True:
     game.show_board()
-    user_input = input("enter a direction: ")
+    user_input = input("Enter a direction: ")
     if user_input == 'w':
         game.on_up_key()
     elif user_input == 's':
