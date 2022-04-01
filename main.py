@@ -31,7 +31,7 @@ class Game:
                 if block == 0:
                     display += "     |"
                 else:
-                    display += f"  {block}  |"
+                    display += f"{block:^5}|"
             print(display)
         print("+-----------------------+")
 
