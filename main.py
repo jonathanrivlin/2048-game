@@ -31,64 +31,58 @@ class Game:
             print(display)
         print("+-----------------------+")
 
+    def stack_vertical(self, direction: int, destination: int):
+        for _ in range(3):
+            for i in range(4):
+                for index, row in enumerate(self.board):
+                    if row[i] != 0 and index != destination and self.board[index + direction][i] == 0:
+                        self.board[index + direction][i] = self.board[index][i]
+                        self.board[index][i] = 0
+
+    def combine_vertical(self, direction: int, destination: int):
+        for i in range(4):
+            for index, row in enumerate(self.board):
+                if row[i] != 0 and index != destination and self.board[index][i] == self.board[index + direction][i]:
+                    self.board[index + direction][i] *= 2
+                    self.board[index][i] = 0
+
+    def stack_horizontal(self, direction: int, destination: int):
+        for _ in range(3):
+            for row in self.board:
+                for index, block in enumerate(row):
+                    if index != destination and block != 0 and row[index + direction] == 0:
+                        row[index + direction] = row[index]
+                        row[index] = 0
+
+    def combine_horizontal(self, direction: int, destination: int):
+        for row in self.board:
+            for index, block in enumerate(row):
+                if row[index] != 0 and index != destination and row[index + direction] == row[index]:
+                    row[index] = 0
+                    row[index + direction] *= 2
+
     def on_up_key(self):
-        for _ in range(3):
-            for i in range(4):
-                for index, row in enumerate(self.board):
-                    if row[i] != 0 and index != 0 and self.board[index - 1][i] == 0:
-                        self.board[index - 1][i] = self.board[index][i]
-                        self.board[index][i] = 0
-        for _ in range(3):
-            for i in range(4):
-                for index, row in enumerate(self.board):
-                    if row[i] != 0 and index != 0 and self.board[index][i] == self.board[index - 1][i]:
-                        self.board[index - 1][i] *= 2
-                        self.board[index][i] = 0
+        self.stack_vertical(-1, 0)
+        self.combine_vertical(-1, 0)
+        self.stack_vertical(-1, 0)
         self.random_blocks()
 
     def on_down_key(self):
-        for _ in range(3):
-            for i in range(4):
-                for index, row in enumerate(self.board):
-                    if row[i] != 0 and index != 3 and self.board[index + 1][i] == 0:
-                        self.board[index + 1][i] = self.board[index][i]
-                        self.board[index][i] = 0
-        for _ in range(3):
-            for i in range(4):
-                for index, row in enumerate(self.board):
-                    if row[i] != 0 and index != 3 and self.board[index + 1][i] == self.board[index][i]:
-                        self.board[index + 1][i] *= 2
-                        self.board[index][i] = 0
+        self.stack_vertical(1, 3)
+        self.combine_vertical(1, 3)
+        self.stack_vertical(1, 3)
         self.random_blocks()
 
     def on_right_key(self):
-        for _ in range(3):
-            for row in self.board:
-                for index, block in enumerate(row):
-                    if index != 3 and block != 0 and row[index + 1] == 0:
-                        row[index + 1] = row[index]
-                        row[index] = 0
-
-        for row in self.board:
-            for index, block in enumerate(row):
-                if row[index] != 0 and index != 3 and row[index + 1] == row[index]:
-                    row[index] = 0
-                    row[index + 1] *= 2
+        self.stack_horizontal(1, 3)
+        self.combine_horizontal(1, 3)
+        self.stack_horizontal(1, 3)
         self.random_blocks()
 
     def on_left_key(self):
-        for _ in range(3):
-            for row in self.board:
-                for index, block in enumerate(row):
-                    if index != 0 and block != 0 and row[index - 1] == 0:
-                        row[index - 1] = block
-                        row[index] = 0
-
-        for row in self.board:
-            for index, block in enumerate(row):
-                if row[index] != 0 and index != 0 and row[index] == row[index - 1]:
-                    row[index - 1] *= 2
-                    row[index] = 0
+        self.stack_horizontal(-1, 0)
+        self.combine_horizontal(-1, 0)
+        self.stack_horizontal(-1, 0)
         self.random_blocks()
 
 
