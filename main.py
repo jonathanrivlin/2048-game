@@ -45,6 +45,7 @@ class Game:
                 if row[i] != 0 and index != destination and self.board[index][i] == self.board[index + direction][i]:
                     self.board[index + direction][i] *= 2
                     self.board[index][i] = 0
+                    continue
 
     def stack_horizontal(self, direction: int, destination: int):
         for _ in range(3):
@@ -60,6 +61,7 @@ class Game:
                 if row[index] != 0 and index != destination and row[index + direction] == row[index]:
                     row[index] = 0
                     row[index + direction] *= 2
+                    continue
 
     def on_up_key(self):
         self.stack_vertical(-1, 0)
