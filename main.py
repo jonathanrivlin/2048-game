@@ -19,18 +19,6 @@ class Game:
                 self.board[y][x] = 2
                 done = True
 
-    def show_board(self):
-        for row in self.board:
-            print("+-----------------------+")
-            display: str = "|"
-            for block in row:
-                if block == 0:
-                    display += "     |"
-                else:
-                    display += f"{block:^5}|"
-            print(display)
-        print("+-----------------------+")
-
     def stack_vertical(self, direction: int, destination: int):
         for _ in range(3):
             for i in range(4):
@@ -87,11 +75,26 @@ class Game:
         self.stack_horizontal(-1, 0)
         self.random_blocks()
 
+    def __repr__(self):
+        return str(self.board)
+
+    def __str__(self):
+        display: str = "+-----------------------+"
+        for row in self.board:
+            display += "\n|"
+            for block in row:
+                if block == 0:
+                    display += "     |"
+                else:
+                    display += f"{block:^5}|"
+            display += "\n+-----------------------+"
+        return display
+
 
 game = Game()
 
 while True:
-    game.show_board()
+    print(game)
     print("Use the WASD keys to play, and hit the space to reset the game.")
     user_input = input("Enter a direction: ")
     if user_input == 'w':
