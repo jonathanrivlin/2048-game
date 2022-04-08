@@ -9,7 +9,10 @@ class Game:
         self.random_blocks(0)
 
     def random_blocks(self, chance_for_four: float = 0.2):
-        done = False
+        done = True
+        for row in self.board:
+            if 0 in row:
+                done = False
         while not done:
             x, y = rd.randint(0, 3), rd.randint(0, 3)
             if not self.board[y][x] and rd.random() < chance_for_four:
@@ -75,6 +78,24 @@ class Game:
         self.stack_horizontal(-1, 0)
         self.random_blocks()
 
+    def lose(self):
+        for row in self.board:
+            if 0 in row:
+                return False
+        for row in self.board:
+            previous = 0
+            for tile in row:
+                if tile == previous:
+                    return False
+                previous = tile
+        for x in range(4):
+            previous = 0
+            for y in range(4):
+                if self.board[y][x] == previous:
+                    return False
+                previous = self.board[y][x]
+        return True
+
     def __repr__(self):
         return str(self.board)
 
@@ -93,7 +114,7 @@ class Game:
 
 game = Game()
 
-while True:
+while not game.lose():
     print(game)
     print("Use the WASD keys to play, and hit the space to reset the game.")
     user_input = input("Enter a direction: ")
@@ -107,3 +128,5 @@ while True:
         game.on_right_key()
     elif user_input == ' ':
         game = Game()
+
+print(f"\n\n{game}\n***** GAME OVER! ***** \n")
