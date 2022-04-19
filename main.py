@@ -3,12 +3,12 @@ from typing import List
 
 
 class Game:
-    def __init__(self):
+    def __init__(self) -> None:
         self.board: List[List[int]] = [[0 for _ in range(4)] for _ in range(4)]
         self.random_blocks()
         self.random_blocks(0)
 
-    def random_blocks(self, chance_for_four: float = 0.2):
+    def random_blocks(self, chance_for_four: float = 0.2) -> None:
         done = True
         for row in self.board:
             if 0 in row:
@@ -22,7 +22,7 @@ class Game:
                 self.board[y][x] = 2
                 done = True
 
-    def stack_vertical(self, direction: int, destination: int):
+    def stack_vertical(self, direction: int, destination: int) -> None:
         for _ in range(3):
             for i in range(4):
                 for index, row in enumerate(self.board):
@@ -30,7 +30,7 @@ class Game:
                         self.board[index + direction][i] = self.board[index][i]
                         self.board[index][i] = 0
 
-    def combine_vertical(self, direction: int, destination: int):
+    def combine_vertical(self, direction: int, destination: int) -> None:
         for i in range(4):
             for index, row in enumerate(self.board):
                 if row[i] != 0 and index != destination and self.board[index][i] == self.board[index + direction][i]:
@@ -38,7 +38,7 @@ class Game:
                     self.board[index][i] = 0
                     continue
 
-    def stack_horizontal(self, direction: int, destination: int):
+    def stack_horizontal(self, direction: int, destination: int) -> None:
         for _ in range(3):
             for row in self.board:
                 for index, block in enumerate(row):
@@ -46,7 +46,7 @@ class Game:
                         row[index + direction] = row[index]
                         row[index] = 0
 
-    def combine_horizontal(self, direction: int, destination: int):
+    def combine_horizontal(self, direction: int, destination: int) -> None:
         for row in self.board:
             for index, block in enumerate(row):
                 if row[index] != 0 and index != destination and row[index + direction] == row[index]:
@@ -54,31 +54,31 @@ class Game:
                     row[index + direction] *= 2
                     continue
 
-    def on_up_key(self):
+    def on_up_key(self) -> None:
         self.stack_vertical(-1, 0)
         self.combine_vertical(-1, 0)
         self.stack_vertical(-1, 0)
         self.random_blocks()
 
-    def on_down_key(self):
+    def on_down_key(self) -> None:
         self.stack_vertical(1, 3)
         self.combine_vertical(1, 3)
         self.stack_vertical(1, 3)
         self.random_blocks()
 
-    def on_right_key(self):
+    def on_right_key(self) -> None:
         self.stack_horizontal(1, 3)
         self.combine_horizontal(1, 3)
         self.stack_horizontal(1, 3)
         self.random_blocks()
 
-    def on_left_key(self):
+    def on_left_key(self) -> None:
         self.stack_horizontal(-1, 0)
         self.combine_horizontal(-1, 0)
         self.stack_horizontal(-1, 0)
         self.random_blocks()
 
-    def lose(self):
+    def lose(self) -> bool:
         for row in self.board:
             if 0 in row:
                 return False
@@ -96,10 +96,10 @@ class Game:
                 previous = self.board[y][x]
         return True
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return str(self.board)
 
-    def __str__(self):
+    def __str__(self) -> str:
         display: str = "+-----------------------+"
         for row in self.board:
             display += "\n|"
